@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AppointmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="AppointmentEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(AppointmentModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(AppointmentModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="Booking" EntityType="AppointmentModel.Booking" />
+    <EntitySet Name="Indication" EntityType="AppointmentModel.Indication" />
+    <EntitySet Name="IndicationInfo" EntityType="AppointmentModel.IndicationInfo" />
+    <EntitySet Name="Patient" EntityType="AppointmentModel.Patient" />
+    <EntitySet Name="PatientPayment" EntityType="AppointmentModel.PatientPayment" />
+    <EntitySet Name="PaymentType" EntityType="AppointmentModel.PaymentType" />
+    <EntitySet Name="sysdiagrams" EntityType="AppointmentModel.sysdiagrams" />
+    <EntitySet Name="Threatment" EntityType="AppointmentModel.Threatment" />
+    <EntitySet Name="ThreatmentGroup" EntityType="AppointmentModel.ThreatmentGroup" />
+    <EntitySet Name="User" EntityType="AppointmentModel.User" />
+    <AssociationSet Name="FK_Date_Patient" Association="AppointmentModel.FK_Date_Patient">
+      <End Role="Patient" EntitySet="Patient" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Indication_Patient" Association="AppointmentModel.FK_Indication_Patient">
+      <End Role="Patient" EntitySet="Patient" />
+      <End Role="Indication" EntitySet="Indication" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Indication_Threatment" Association="AppointmentModel.FK_Indication_Threatment">
+      <End Role="Threatment" EntitySet="Threatment" />
+      <End Role="Indication" EntitySet="Indication" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IndicationInfo_Patient" Association="AppointmentModel.FK_IndicationInfo_Patient">
+      <End Role="Patient" EntitySet="Patient" />
+      <End Role="IndicationInfo" EntitySet="IndicationInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Patient_User" Association="AppointmentModel.FK_Patient_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Patient" EntitySet="Patient" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PatientPayment_PaymentType" Association="AppointmentModel.FK_PatientPayment_PaymentType">
+      <End Role="PaymentType" EntitySet="PaymentType" />
+      <End Role="PatientPayment" EntitySet="PatientPayment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Threatment_ThreatmentGroup" Association="AppointmentModel.FK_Threatment_ThreatmentGroup">
+      <End Role="ThreatmentGroup" EntitySet="ThreatmentGroup" />
+      <End Role="Threatment" EntitySet="Threatment" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Time" Type="Time" Precision="7" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Duration" Type="Int32" />
+    <NavigationProperty Name="Patient" Relationship="AppointmentModel.FK_Date_Patient" FromRole="Booking" ToRole="Patient" />
+  </EntityType>
+  <EntityType Name="Indication">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Patient" Relationship="AppointmentModel.FK_Indication_Patient" FromRole="Indication" ToRole="Patient" />
+    <NavigationProperty Name="Threatment" Relationship="AppointmentModel.FK_Indication_Threatment" FromRole="Indication" ToRole="Threatment" />
+  </EntityType>
+  <EntityType Name="IndicationInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ListAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Patient" Relationship="AppointmentModel.FK_IndicationInfo_Patient" FromRole="IndicationInfo" ToRole="Patient" />
+  </EntityType>
+  <EntityType Name="Patient">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProtocolNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SurName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+    <Property Name="Gender" Type="Byte" />
+    <Property Name="Job" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Identification" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Booking" Relationship="AppointmentModel.FK_Date_Patient" FromRole="Patient" ToRole="Booking" />
+    <NavigationProperty Name="Indication" Relationship="AppointmentModel.FK_Indication_Patient" FromRole="Patient" ToRole="Indication" />
+    <NavigationProperty Name="IndicationInfo" Relationship="AppointmentModel.FK_IndicationInfo_Patient" FromRole="Patient" ToRole="IndicationInfo" />
+    <NavigationProperty Name="User" Relationship="AppointmentModel.FK_Patient_User" FromRole="Patient" ToRole="User" />
+  </EntityType>
+  <EntityType Name="PatientPayment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="PatientId" Type="Int32" />
+    <NavigationProperty Name="PaymentType" Relationship="AppointmentModel.FK_PatientPayment_PaymentType" FromRole="PatientPayment" ToRole="PaymentType" />
+  </EntityType>
+  <EntityType Name="PaymentType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PatientPayment" Relationship="AppointmentModel.FK_PatientPayment_PaymentType" FromRole="PaymentType" ToRole="PatientPayment" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Threatment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ListPrice" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="Indication" Relationship="AppointmentModel.FK_Indication_Threatment" FromRole="Threatment" ToRole="Indication" />
+    <NavigationProperty Name="ThreatmentGroup" Relationship="AppointmentModel.FK_Threatment_ThreatmentGroup" FromRole="Threatment" ToRole="ThreatmentGroup" />
+  </EntityType>
+  <EntityType Name="ThreatmentGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Threatment" Relationship="AppointmentModel.FK_Threatment_ThreatmentGroup" FromRole="ThreatmentGroup" ToRole="Threatment" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SurName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Patient" Relationship="AppointmentModel.FK_Patient_User" FromRole="User" ToRole="Patient" />
+  </EntityType>
+  <Association Name="FK_Date_Patient">
+    <End Type="AppointmentModel.Patient" Role="Patient" Multiplicity="0..1" />
+    <End Type="AppointmentModel.Booking" Role="Booking" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Indication_Patient">
+    <End Type="AppointmentModel.Patient" Role="Patient" Multiplicity="0..1" />
+    <End Type="AppointmentModel.Indication" Role="Indication" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Indication_Threatment">
+    <End Type="AppointmentModel.Threatment" Role="Threatment" Multiplicity="0..1" />
+    <End Type="AppointmentModel.Indication" Role="Indication" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_IndicationInfo_Patient">
+    <End Type="AppointmentModel.Patient" Role="Patient" Multiplicity="0..1" />
+    <End Type="AppointmentModel.IndicationInfo" Role="IndicationInfo" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Patient_User">
+    <End Type="AppointmentModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="AppointmentModel.Patient" Role="Patient" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_PatientPayment_PaymentType">
+    <End Type="AppointmentModel.PaymentType" Role="PaymentType" Multiplicity="0..1" />
+    <End Type="AppointmentModel.PatientPayment" Role="PatientPayment" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Threatment_ThreatmentGroup">
+    <End Type="AppointmentModel.ThreatmentGroup" Role="ThreatmentGroup" Multiplicity="0..1" />
+    <End Type="AppointmentModel.Threatment" Role="Threatment" Multiplicity="*" />
+  </Association>
+</Schema>
