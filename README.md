@@ -1,3 +1,0 @@
-# AppointmentApi
-
-Appointment RESTFUL Api
