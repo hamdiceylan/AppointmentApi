@@ -161,6 +161,5 @@ C:\Users\User\Documents\GitHub\AppointmentApi\AppointmentApi\bin\Microsoft.Owin.
 C:\Users\User\Documents\GitHub\AppointmentApi\AppointmentApi\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\User\Documents\GitHub\AppointmentApi\AppointmentApi\bin\System.Web.Http.Owin.xml
 C:\Users\User\Documents\GitHub\AppointmentApi\AppointmentApi\bin\tr\System.Web.Http.Cors.resources.dll
-C:\Users\User\Documents\GitHub\AppointmentApi\AppointmentApi\obj\Debug\AppointmentApi.csprojResolveAssemblyReference.cache
 C:\Users\User\Documents\GitHub\AppointmentApi\AppointmentApi\obj\Debug\AppointmentApi.dll
 C:\Users\User\Documents\GitHub\AppointmentApi\AppointmentApi\obj\Debug\AppointmentApi.pdb
